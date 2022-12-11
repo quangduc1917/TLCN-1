@@ -1,0 +1,64 @@
+								<form id="edit" th:action="@{/admin/manage/brand/add1}" method="get"   >
+										<div class="modal fade" id="brands-edit" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 style="text-align: center;">Cập nhật thương hiệu</h4>
+													</div>
+													<div class="modal-body">
+														<div class="form-group">
+															<label for="">Tên Thương hiệu</label> <input
+																type="text" class="form-control" id="name-brand1"
+														 th:field="${brands.name}"	aria-describedby="" placeholder="">
+														</div>
+														<div class="form-group">
+															<label for="">Thể loại</label>
+															<select class="form-control"  id="category1" multiple>
+																<option th:each="categories : ${categories}"
+																	th:value="${categories.id}"
+																	th:text="${categories.name}" ></option>
+																	</select>
+														</div>
+
+													</div>
+													<div class="modal-footer">
+														<button type="submit" class="btn addPD">Cập nhật</button>
+														<button type="button" class="btn btn-default"
+															data-dismiss="modal">Đóng</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#edit').submit(function(event) {
+			event.preventDefault();
+			ajaxCategory();
+		});
+		function ajaxCategory() {
+			var namebrand =$('#name-brand1').val();
+			var icategory=$('#category1').val();
+
+			console.log(icategory);
+			$.ajax({
+				url : "/admin/manage/brand/add1",
+				type : "get",
+				data : {
+					namebrand:namebrand,
+					category:icategory,
+				},
+				success : function(data) {
+					if (data) {
+						alert("Bạn đã thêm thể loại thành công ");
+						$('#dataTables-brands').DataTable().ajax.reload();
+					} else {
+						alert("lỗi quá trình xử lý ");
+					}
+				}
+			})
+		}	});
+
+</script>
